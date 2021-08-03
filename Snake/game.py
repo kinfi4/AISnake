@@ -18,7 +18,6 @@ class Game:
         self.clock = pygame.time.Clock()
         self.direction = Direction.RIGHT
 
-        self.head = Point(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.snake = Snake()
 
         self.score = 0
@@ -50,16 +49,14 @@ class Game:
                 elif event.key == pygame.K_UP:
                     self.direction = Direction.UP
 
-        self._move(self.direction)
-        self.snake.insert(0, self.head)
+        self.snake.move(self.direction)
 
         game_over = False
-
-        if self._is_collision():
+        if self.snake.is_collision():
             game_over = True
             return game_over, self.score
 
-        if self.head == self.food:
+        if self.snake.head == self.food:
             self.score += 1
             self._place_food()
         else:
@@ -81,30 +78,6 @@ class Game:
         text = font.render(f'Score: {self.score}', True, Colors.WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
-
-    def _move(self, direction):
-        x = self.head.x
-        y = self.head.y
-
-        if direction == Direction.RIGHT:
-            x += BLOCK_SIZE
-        elif direction == Direction.LEFT:
-            x -= BLOCK_SIZE
-        elif direction == Direction.UP:
-            y -= BLOCK_SIZE
-        elif direction == Direction.DOWN:
-            y += BLOCK_SIZE
-
-        self.head = Point(x, y)
-
-    def _is_collision(self):
-        return self._hit_boundary() or self.head in self.snake[1:]
-
-    def _hit_boundary(self):
-        return self.head.x > self.display.get_width() - BLOCK_SIZE \
-               or self.head.x < 0 \
-               or self.head.y > self.display.get_height() - BLOCK_SIZE \
-               or self.head.y < 0
 
 
 if __name__ == '__main__':
