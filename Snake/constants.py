@@ -5,6 +5,7 @@ from enum import Enum
 BLOCK_SIZE = 20
 SPEED = 5
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
+
 Point = namedtuple('Point', 'x y')
 
 

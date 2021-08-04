@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from constants import Colors, BLOCK_SIZE, Direction, Point, SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
+from constants import Colors, BLOCK_SIZE, Point, SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
 from snake import Snake
 
 
@@ -16,13 +16,17 @@ class Game:
         pygame.display.set_caption('Snake')
 
         self.clock = pygame.time.Clock()
-        self.direction = Direction.RIGHT
 
-        self.snake = Snake()
+        self.snake, self.score, self.food, self.frame_iteration = None, None, None, None
+        self.reset()
+
+    def reset(self):
+        self.snake = Snake(initial_size=3)
 
         self.score = 0
         self.food = None
         self._place_food()
+        self.frame_iteration = 0
 
     def _place_food(self):
         x = random.randint(0, (self.display.get_width() - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
@@ -33,39 +37,33 @@ class Game:
         if self.food in self.snake:
             self._place_food()
 
-    def step(self):
+    def step(self, action):
+        self.frame_iteration += 1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.direction = Direction.LEFT
-                elif event.key == pygame.K_RIGHT:
-                    self.direction = Direction.RIGHT
-                elif event.key == pygame.K_DOWN:
-                    self.direction = Direction.DOWN
-                elif event.key == pygame.K_UP:
-                    self.direction = Direction.UP
+        self.snake.move(action)
 
-        self.snake.move(self.direction)
-
-        game_over = False
-        if self.snake.is_collision():
+        game_over, reward = False, 0
+        if self.snake.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
-            return game_over, self.score
+            reward = -10
+            return reward, game_over, self.score
 
         if self.snake.head == self.food:
             self.score += 1
             self._place_food()
+            reward = 10
         else:
             self.snake.pop()
 
         self._update_screen()
         self.clock.tick(SPEED)
 
-        return game_over, self.score
+        return reward, game_over, self.score
 
     def _update_screen(self):
         self.display.fill(Colors.BLACK)
@@ -78,15 +76,3 @@ class Game:
         text = font.render(f'Score: {self.score}', True, Colors.WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
-
-
-if __name__ == '__main__':
-    game = Game()
-
-    while True:
-        is_end, score = game.step()
-
-        if is_end:
-            break
-
-    pygame.quit()
