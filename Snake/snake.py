@@ -17,6 +17,7 @@ class Snake:
 
     def move(self, action):
         # action = [straight, right, left]
+
         directions = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         cur_dir_index = directions.index(self.direction)
 
@@ -50,14 +51,18 @@ class Snake:
     def pop(self):
         self.blocks.pop()
 
-    def is_collision(self):
-        return self._hit_boundary() or self.head in self.blocks[1:]
+    def is_collision(self, point=None):
+        if point is None:
+            point = self.head
 
-    def _hit_boundary(self):
-        return self.head.x > SCREEN_WIDTH - BLOCK_SIZE \
-               or self.head.x < 0 \
-               or self.head.y > SCREEN_HEIGHT - BLOCK_SIZE \
-               or self.head.y < 0
+        return self._hit_boundary(point) or point in self.blocks[1:]
+
+    @staticmethod
+    def _hit_boundary(point):
+        return point.x > SCREEN_WIDTH - BLOCK_SIZE \
+               or point.x < 0 \
+               or point.y > SCREEN_HEIGHT - BLOCK_SIZE \
+               or point.y < 0
 
     def __contains__(self, item):
         return item in self.blocks
