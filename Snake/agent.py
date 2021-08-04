@@ -5,17 +5,17 @@ import numpy as np
 import torch
 
 from game import Game
+from model import Trainer, Model
 from constants import Direction, Point, MAX_MEMORY, BATCH_SIZE, BLOCK_SIZE, MUTATION_RATE
 
 
 class GameAIAgent:
     def __init__(self):
         self.n_iterations = 0
-        self.gamma = 0
         self.memory = deque(maxlen=MAX_MEMORY)
 
-        self.model = None  # TODO: implement it
-        self.trainer = None  # TODO: implement it
+        self.model = Model(11, 256, 3)
+        self.trainer = Trainer(self.model)
 
     @staticmethod
     def get_state(game: Game):
@@ -83,7 +83,7 @@ class GameAIAgent:
             move = random.randint(0, 2)
             final_move[move] = 1
         else:
-            predictions = self.model.predict(torch.tensor(state))
+            predictions = self.model(torch.tensor(state, dtype=torch.float))
             move = torch.argmax(predictions).item()
             final_move[move] = 1
 

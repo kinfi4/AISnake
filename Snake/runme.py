@@ -1,5 +1,6 @@
 from agent import GameAIAgent
 from game import Game
+from plotting import plot
 
 
 def train_snake():
@@ -8,6 +9,8 @@ def train_snake():
     game = Game()
 
     while True:
+        # plot(plot_scores, plot_mean_scores)
+
         # get the old state
         old_state = agent.get_state(game)
 
@@ -30,8 +33,16 @@ def train_snake():
 
             if score > record:
                 record = score
-                #  TODO: save model
+                agent.model.save()
 
-            print(f'Game: {agent.n_iterations}, Score: {score}, Record: {record}')
+            plot_scores.append(score)
+            total_score += score
 
-            # TODO: plotting
+            mean_score = total_score / agent.n_iterations
+            plot_mean_scores.append(mean_score)
+
+            print(f'Game: {agent.n_iterations}, Score: {score}, AVG Score: {round(mean_score, 2)} Record: {record}')
+
+
+if __name__ == '__main__':
+    train_snake()
