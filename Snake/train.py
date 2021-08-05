@@ -45,8 +45,6 @@ def train_snake(file_for_saving, show_plots):
 
                 plot(plot_scores, plot_mean_scores)
 
-            print(f'Game: {agent.n_iterations}, Score: {score}, AVG Score: {round(mean_score, 2)} Record: {record}')
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train your snake')

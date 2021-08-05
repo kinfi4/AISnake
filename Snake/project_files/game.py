@@ -11,11 +11,12 @@ font = pygame.font.SysFont('Arial', 25)
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, speed=SPEED):
         self.display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Snake')
 
         self.clock = pygame.time.Clock()
+        self.speed = speed
 
         self.snake, self.score, self.food, self.frame_iteration = None, None, None, None
         self.reset()
@@ -61,7 +62,7 @@ class Game:
             self.snake.pop()
 
         self._update_screen()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.speed)
 
         return reward, game_over, self.score
 
