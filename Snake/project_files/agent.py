@@ -4,9 +4,9 @@ from collections import deque
 import numpy as np
 import torch
 
-from game import Game
-from model import Trainer, Model
-from constants import Direction, Point, MAX_MEMORY, BATCH_SIZE, BLOCK_SIZE, MUTATION_RATE
+from project_files.game import Game
+from project_files.model import Trainer, Model
+from project_files.constants import Direction, Point, MAX_MEMORY, BATCH_SIZE, BLOCK_SIZE, MUTATION_RATE
 
 
 class GameAIAgent:

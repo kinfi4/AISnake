@@ -1,16 +1,16 @@
-from agent import GameAIAgent
-from game import Game
-from plotting import plot
+import argparse
+
+from project_files.agent import GameAIAgent
+from project_files.game import Game
+from project_files.plotting import plot
 
 
-def train_snake():
+def train_snake(file_for_saving, show_plots):
     plot_scores, plot_mean_scores, total_score, record = [], [], 0, 0
     agent = GameAIAgent()
     game = Game()
 
     while True:
-        # plot(plot_scores, plot_mean_scores)
-
         # get the old state
         old_state = agent.get_state(game)
 
@@ -33,16 +33,28 @@ def train_snake():
 
             if score > record:
                 record = score
-                agent.model.save()
+                agent.model.save(file_for_saving)
 
-            plot_scores.append(score)
             total_score += score
 
             mean_score = total_score / agent.n_iterations
-            plot_mean_scores.append(mean_score)
+
+            if show_plots:
+                plot_scores.append(score)
+                plot_mean_scores.append(mean_score)
+
+                plot(plot_scores, plot_mean_scores)
 
             print(f'Game: {agent.n_iterations}, Score: {score}, AVG Score: {round(mean_score, 2)} Record: {record}')
 
 
 if __name__ == '__main__':
-    train_snake()
+    parser = argparse.ArgumentParser(description='Train your snake')
+    parser.add_argument('--filename', type=str, help='Path to the file where to save model after training',
+                        required=False, default='./model/model.pth')
+    parser.add_argument('-s', '--short_form', action='store_false',
+                        help='Dont show plotting of scores and mean score while training')
+
+    args = parser.parse_args()
+
+    train_snake(args.filename, args.short_form)

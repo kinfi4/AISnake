@@ -1,6 +1,6 @@
 import numpy as np
 
-from constants import BLOCK_SIZE, Direction, Point, SCREEN_HEIGHT, SCREEN_WIDTH
+from project_files.constants import BLOCK_SIZE, Direction, Point, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class Snake:

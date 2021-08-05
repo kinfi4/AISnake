@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from torch.nn.functional import relu
 
-from constants import GAMMA, LEARNING_RATE
+from project_files.constants import GAMMA, LEARNING_RATE
 
 
 class Model(nn.Module):
@@ -21,12 +21,7 @@ class Model(nn.Module):
         return x
 
     def save(self, filename='model.pth'):
-        folder_name = './model'
-
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
-
-        filename = os.path.join(folder_name, filename)
+        print(filename)
         torch.save(self.state_dict(), filename)
 
 

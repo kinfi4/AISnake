@@ -2,8 +2,8 @@ import random
 
 import pygame
 
-from constants import Colors, BLOCK_SIZE, Point, SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
-from snake import Snake
+from project_files.constants import Colors, BLOCK_SIZE, Point, SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
+from project_files.snake import Snake
 
 
 pygame.init()
