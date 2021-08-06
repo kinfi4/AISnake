@@ -17,6 +17,7 @@ class SnakePlayer:
         self.agent = GameAIAgent()
 
     def play_snake(self, speed):
+        total_score, record = 0, 0
         game = Game(speed=speed)
 
         while True:
@@ -26,8 +27,13 @@ class SnakePlayer:
             reward, game_over, score = game.step(move)
 
             if game_over:
+                self.agent.n_iterations += 1
+                total_score += score
+                record = max(score, record)
+                mean_score = round(total_score / self.agent.n_iterations, 2)
+
                 game.reset()
-                print(f'Score: {score}')
+                print(f'Game: {self.agent.n_iterations}, Score: {score}, Mean Score: {mean_score}, Record: {record}')
 
     def _make_prediction(self, state):
         final_move = [0, 0, 0]

@@ -70,7 +70,8 @@ class Game:
         self.display.fill(Colors.BLACK)
 
         for pt in self.snake:
-            pygame.draw.rect(self.display, Colors.RED, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, Colors.RED, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))  # drawing block
+            pygame.draw.circle(self.display, Colors.YELLOW, (pt.x + (BLOCK_SIZE // 2), pt.y + (BLOCK_SIZE // 2)), 4)
 
         pygame.draw.rect(self.display, Colors.BLUE, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 

@@ -16,10 +16,11 @@ Point = namedtuple('Point', 'x y')
 
 
 class Colors:
-    BLACK = (0, 0, 0)
+    BLACK = (20, 20, 20)
     WHITE = (255, 255, 255)
     RED = (200, 30, 30)
     BLUE = (30, 30, 200)
+    YELLOW = (200, 200, 50)
 
 
 class Direction(Enum):

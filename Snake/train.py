@@ -45,10 +45,12 @@ def train_snake(file_for_saving, show_plots):
 
                 plot(plot_scores, plot_mean_scores)
 
+            print(f'Game: {agent.n_iterations}, Score: {score}, Mean Score: {mean_score}, Record: {record}')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train your snake')
-    parser.add_argument('--filename', type=str, help='Path to the file where to save model after training',
+    parser.add_argument('-f', '--filename', type=str, help='Path to the file where to save model after training',
                         required=False, default='./model/model.pth')
     parser.add_argument('-s', '--short_form', action='store_false',
                         help='Dont show plotting of scores and mean score while training')
